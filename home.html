@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AltaVibe — Accesorios de celulares premium</title>
+  <meta name="description" content="AltaVibe: accesorios compatibles de alta calidad para celular. Envíos a toda la República. Compra por WhatsApp." />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --nav-base: #111416;
+      --bg-mid:  #0f1313;
+      --card:    #121416;
+      --fg:      #f6f5f3;
+      --muted:   #bdb8b0;
+      --accent:  #c9a84b;
+      --accent-strong: #b58f3f;
+      --cart-gray: #7f868c;
+      --radius: 14px;
+      --glass: rgba(255,255,255,0.03);
+      --max-width:1100px;
+      --cart-badge-bg: #c9a84b;
+    }
+
+    *{box-sizing:border-box}
+    html{
+      min-height:100%;
+      background: linear-gradient(180deg, var(--nav-base) 0%, var(--bg-mid) 100%);
+      background-attachment: fixed;
+      color:var(--fg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    body{margin:0;font-family:Montserrat,system-ui,Arial,sans-serif;min-height:100%;background:transparent;scroll-behavior:smooth;}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%;height:auto}
+    .container{max-width:var(--max-width);margin:0 auto;padding:28px}
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;padding:18px 0;
+      position:sticky;top:0;background: linear-gradient(180deg, rgba(17,20,22,0.95), rgba(15,17,18,0.88));
+      backdrop-filter: blur(4px);z-index:90;
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{font-family:'Playfair Display',serif;font-size:28px;letter-spacing:1px;color:var(--fg)}
+    .tag{font-size:12px;color:var(--muted)}
+    nav a{margin-left:18px;font-weight:600;color:var(--muted);font-size:14px}
+    nav.desktop{display:flex;gap:18px;align-items:center}
+    .hamburger{display:none;background:transparent;border:0;color:var(--fg);font-size:22px;cursor:pointer;padding:8px;border-radius:8px}
+    .hamburger:focus{outline:2px solid rgba(201,168,75,0.4);outline-offset:2px}
+    .mobile-nav{display:none;position:fixed;top:0;right:0;height:100vh;width:320px;max-width:100%;background:linear-gradient(180deg,#0f1011,#0b0d0e);box-shadow:-8px 0 30px rgba(0,0,0,0.6);padding:20px;z-index:100}
+    .mobile-nav.open{display:block}
+    .mobile-nav a{display:block;padding:12px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:700}
+    .mobile-nav .close{display:block;text-align:right;color:var(--muted);cursor:pointer;margin-bottom:6px;font-size:20px}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center;padding:30px 0}
+    .hero h1{font-size:42px;margin:0 0 10px;font-weight:800}
+    .hero p{color:var(--muted);line-height:1.5}
+    .cta{margin-top:18px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:var(--accent);color:#0b0b0b;font-weight:700;font-family:Montserrat}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:10px 14px;border-radius:10px;font-family:Montserrat}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+    .product{border-radius:12px;overflow:hidden;position:relative}
+    .product img{width:100%;height:220px;object-fit:cover;display:block}
+    .product-body{padding:12px}
+    .product h3{margin:0;font-size:18px;font-weight:700}
+    .price{font-weight:800;margin-top:6px;color:var(--accent)}
+    .actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+
+    footer{margin-top:48px;padding:28px 0;color:var(--muted);font-size:14px}
+
+    .product-detail{display:grid;grid-template-columns:1fr 420px;gap:28px;margin-top:18px;align-items:start}
+    .big-img{border-radius:12px;overflow:hidden;background:#0b0b0b;display:flex;align-items:center;justify-content:center;min-height:120px;position:relative}
+    .big-img img{width:100%;height:auto;max-height:420px;object-fit:contain;display:block;cursor:zoom-in;transition:transform .25s ease}
+    .big-img img:hover{transform:scale(1.02)}
+    .meta{background:var(--card);padding:18px;border-radius:12px}
+    .meta h2{margin:0 0 8px}
+    .meta .price{font-size:22px;color:var(--accent)}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;color:var(--muted);font-size:12px}
+
+    .meta .primary-actions{display:flex;gap:10px;align-items:center}
+    .meta .add-cart-center{
+      display:block;margin:14px auto 0 auto;background:var(--cart-gray);color:var(--fg);padding:10px 14px;border-radius:10px;border:0;font-weight:800;cursor:pointer;font-family:Montserrat;transition:none;
+    }
+    .meta .add-cart-center:hover{ background:var(--cart-gray); color:var(--fg); }
+
+    .reco-wrap{margin-top:18px}
+    .reco-controls{display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;align-items:center}
+    .reco-controls .muted{margin-right:auto;color:var(--muted)}
+    .reco-controls button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 10px;border-radius:8px;color:var(--fg);cursor:pointer}
+    .reco-carousel{display:flex;gap:12px;overflow-x:auto;padding:8px 4px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;align-items:flex-start}
+    .reco-carousel::-webkit-scrollbar{height:0;display:none}
+    .reco-carousel{ -ms-overflow-style: none; scrollbar-width: none; }
+    .reco-item{flex:0 0 180px;background:var(--card);border-radius:10px;padding:10px;text-align:center;min-height:160px}
+    .reco-item img{width:100%;height:110px;object-fit:cover;border-radius:8px}
+    .reco-item h4{margin:8px 0 6px;font-size:15px;font-weight:700}
+    .reco-item .price{font-weight:800;color:var(--accent)}
+
+    .cart-btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(201,168,75,0.12);color:var(--muted);cursor:pointer}
+    .cart-btn span{font-weight:700;font-family:Montserrat}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:var(--cart-badge-bg);color:#000;border-radius:999px;padding:4px 7px;font-weight:800;font-size:12px;box-shadow:0 10px 22px rgba(0,0,0,0.6)}
+
+    .cart-page{margin-top:12px}
+    .cart-list{display:grid;gap:12px}
+    .cart-row{display:flex;gap:12px;align-items:center;background:var(--card);padding:10px;border-radius:10px}
+    .cart-row img{width:84px;height:84px;object-fit:cover;border-radius:8px}
+    .cart-row .meta{flex:1}
+    .qty-controls{display:flex;gap:8px;align-items:center}
+    .qty-controls button{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;cursor:pointer;color:var(--muted)}
+
+    .add-pop { position:fixed; z-index:9999; pointer-events:none; background:var(--accent); color:#000; padding:10px 12px; border-radius:999px; font-weight:800; box-shadow:0 12px 30px rgba(0,0,0,0.45); transform-origin:center center; animation: popMove 900ms cubic-bezier(.2,.9,.2,1); font-family:Montserrat; }
+    @keyframes popMove { 0% { transform: translateY(0) scale(0.8); opacity:0 } 20% { transform: translateY(-8px) scale(1.05); opacity:1 } 60% { transform: translateY(-26px) scale(1); opacity:1 } 100% { transform: translateY(-46px) scale(0.9); opacity:0 } }
+
+    .muted{color:var(--muted)}
+    .pill{background:var(--glass);padding:8px 12px;border-radius:999px;font-size:13px}
+    .disclaimer{margin-top:14px;color:#e6d9b2;font-size:13px}
+    .backlink{color:var(--muted);cursor:pointer}
+    a:focus, button:focus { outline: 2px solid rgba(201,168,75,0.45); outline-offset: 2px; }
+    .card{transition:transform .18s ease, box-shadow .18s ease}
+    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,0.45)}
+
+    @media(max-width:1000px){
+      .hero{grid-template-columns:1fr;}
+      .products-grid{grid-template-columns:repeat(2,1fr)}
+      .product img{height:200px}
+      .product-detail{grid-template-columns:1fr}
+      nav.desktop{display:none}
+      .hamburger{display:inline-flex}
+      .reco-item{flex:0 0 160px}
+      .trust{flex-direction:column;gap:12px}
+    }
+    @media(max-width:640px){
+      .products-grid{grid-template-columns:1fr}
+      .hero h1{font-size:32px}
+      .big-img img{max-height:300px}
+      .container{padding:18px}
+      .mobile-nav{width:100%;right:0}
+      .reco-item{flex:0 0 140px}
+      .meta{padding:14px}
+    }
+    @media(max-width:420px){
+      .big-img img{max-height:240px}
+      .hero{gap:18px}
+      .logo{font-size:22px}
+    }
+
+    .iv-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:200;padding:18px}
+    .iv-modal.open{display:flex}
+    .iv-modal .iv-img{max-width:calc(100% - 40px);max-height:calc(100% - 80px);object-fit:contain;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+    .iv-modal .close-x{position:absolute;top:18px;right:18px;font-size:26px;color:#fff;cursor:pointer;background:transparent;border:0;padding:6px 8px;border-radius:8px}
+
+    /* Select styles (model selector) */
+    .select-row{display:flex;align-items:center;gap:12px;margin-top:12px}
+    .select-row label{font-weight:700;color:var(--fg);font-family:Montserrat}
+    .select-model{
+      background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,0.04);
+      padding:8px 12px;border-radius:10px;font-family:Montserrat;min-width:180px;
+      -webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo"><a href="#index.html"><strong>AltaVibe</strong></a></div>
+        <div class="tag">Accesorios de celulares premium</div>
+      </div>
+
+      <nav class="desktop" aria-label="Navegación principal">
+        <a href="#home">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:8px">
+        <button id="openCart" class="cart-btn" aria-label="Ver carrito">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3h2l.4 2M7 13h10l3-8H6.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Carrito</span>
+          <span id="cartCount" class="cart-count" style="display:none">0</span>
+        </button>
+
+        <button id="hamburger" class="hamburger" aria-label="Abrir menú de navegación" aria-controls="mobileNav" aria-expanded="false">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="28" height="2" rx="1" fill="currentColor"></rect>
+            <rect y="9" width="28" height="2" rx="1" fill="currentColor"></rect>
+            <rect y="18" width="28" height="2" rx="1" fill="currentColor"></rect>
+          </svg>
+        </button>
+      </div>
+
+      <nav id="mobileNav" class="mobile-nav" aria-hidden="true">
+        <div class="close" id="mobileClose" role="button" tabindex="0" aria-label="Cerrar menú">✕</div>
+        <a href="#home" class="mobile-link">Inicio</a>
+        <a href="#productos" class="mobile-link">Productos</a>
+        <a href="#faq" class="mobile-link">FAQ</a>
+        <a href="#contacto" class="mobile-link">Contacto</a>
+      </nav>
+    </header>
+
+    <main id="app"><!-- dynamic content injected by JS --></main>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-weight:700">AltaVibe</div>
+          <div class="muted">Accesorios de celular de alta calidad • Envíos a toda la República</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">WhatsApp ventas: <a href="https://wa.me/526623279060" target="_blank" rel="noopener noreferrer"><strong>+52 662 327 9060</strong></a></div>
+          <div class="muted">Correo: altavibe0@gmail.com</div>
+        </div>
+      </div>
+      <div style="margin-top:18px;border-top:1px solid rgba(255,255,255,0.03);padding-top:18px">&copy; <span id="year"></span> AltaVibe. Todos los derechos reservados.</div>
+    </footer>
+  </div>
+
+  <div id="ivModal" class="iv-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+    <button class="close-x" id="ivModalClose" aria-label="Cerrar imagen">✕</button>
+    <img id="ivModalImg" class="iv-img" src="" alt="">
+  </div>
+
+  <script>
+    const whatsappNumber = "526623279060";
+
+    const products = [
+      {id:'earpods', name:'EarPods', price:200, imgs:["images/EarPods.jpeg"], short:'Auriculares con ajuste cómodo y sonido claro.', desc:'EarPods compatibilidad universal. Excelente acabado y sonido definido. Hechos con materiales premium para durar.', features:['Ajuste ergonómico','Cable reforzado','Sonido claro'], sku:'AV-EP01'},
+      {id:'lightning-combo', name:'Lightning Cargador', price:300, imgs:["images/CargadorLightning.jpeg"], short:'Cargador Lightning: cable + adaptador para uso diario.', desc:'Combo con cable Lightning y adaptador de carga con acabados premium. Ideal para uso cotidiano con alta compatibilidad.', features:['Cable 1m reforzado','Adaptador 20W','Compatibilidad amplia'], sku:'AV-LC02'},
+      {id:'usb-c-cable', name:'USB-C Cable', price:160, imgs:["images/CableUSBC.jpeg"], short:'Cable USB-C resistente y ágil.', desc:'Cable de datos y carga USB-C con conductores de alta calidad para carga rápida y transferencia estable.', features:['Carga rápida','Alta transferencia','Aislamiento reforzado'], sku:'AV-UC03'},
+      {id:'lightning-cable', name:'Lightning Cable', price:160, imgs:["images/CableLightning.jpeg"], short:'Lightning Cable de alta durabilidad.', desc:'Cable Lightning con conectores reforzados y revestimiento que evita enredos.', features:['Revestimiento anti-enredo','Conectores reforzados'], sku:'AV-LC04'},
+      {id:'power-adapter', name:'Power Adapter', price:200, imgs:["images/PowerAdapter.jpeg"], short:'Adaptador de pared compacto.', desc:'Adaptador de pared de perfil bajo con salida estable y protección contra sobrecarga.', features:['Protección OVP','Salida estable'], sku:'AV-PA05'},
+      {id:'funda-magsafe', name:'Funda MagSafe', price:100, imgs:["images/FundaMAGSAFE.jpeg"], short:'Funda con anillo magnético compatible.', desc:'Funda con diseño delgado y anillo magnético compatible con cargadores magnéticos tipo MagSafe.', features:['Delgada','Toque suave','Ajuste perfecto'], sku:'AV-FM06'},
+      {id:'airpods', name:'AirPods 2da GEN', price:600, imgs:["images/AirPods.jpeg"], short:'Auriculares inalámbricos con estuche de carga.', desc:'Auriculares inalámbricos con estuche magnético de carga. Sonido equilibrado y estuche compacto.', features:['Conexión estable','Autonomía prolongada','Estuche de carga', 'Encuentra mi Dispositvo', 'Cancelacion de Ruido', 'Audio Espacial'], sku:'AV-AP07'},
+      {id:'usb-c-combo', name:'USB-C Cargador', price:300, imgs:["images/CargadorUSBC.jpeg"], short:'Cargador USB-C: adaptador + cable.', desc:'Combo con adaptador y cable USB-C, pensado para quienes usan dispositivos modernos.', features:['Adaptador','Cable 1m'], sku:'AV-UCC08'},
+      {id:'bateria-magsafe', name:'Bateria MagSafe', price:450, imgs:["images/BateriaMAGSAFE.jpeg"], short:'Batería externa magnética.', desc:'Powerbank con interfaz magnética para adherirse a la parte trasera del teléfono. Capacidad y diseño práctico.', features:['Carga inalámbrica','Capacidad alta'], sku:'AV-BM09'},
+      {id:'usb-lightning-cable', name:'USB Lightning Cable', price:150, imgs:["images/USBLIGHTNING.jpeg"], short:'Cable USB a Lightning durable.', desc:'Cable clásico USB-A a Lightning, pensado para compatibilidad y durabilidad.', features:['Alta durabilidad','Compatibilidad amplia'], sku:'AV-UL10'}
+    ];
+
+    // CART (supports model variant)
+    const CART_KEY = 'altavibe_cart_v1';
+    function getCart(){
+      try{
+        const raw = localStorage.getItem(CART_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e){ return []; }
+    }
+    function saveCart(cart){
+      // sanitize numbers
+      const normalized = cart.map(i=>({ id: i.id, qty: Number(i.qty)||0, model: i.model || null }));
+      localStorage.setItem(CART_KEY, JSON.stringify(normalized));
+      updateCartBadge();
+    }
+    function findCartItem(cart, id, model){
+      return cart.find(it => it.id === id && ( (it.model||null) === (model||null) ));
+    }
+
+    function addToCart(id, qty=1, model=null){
+      const cart = getCart();
+      // if model provided, group by id+model
+      const item = findCartItem(cart, id, model);
+      if(item) item.qty = Number(item.qty) + Number(qty);
+      else cart.push({id, qty: Number(qty), model: model || null});
+      const filtered = cart.filter(c=> Number(c.qty) > 0 );
+      saveCart(filtered);
+      showAddPopNearCart('Agregado');
+    }
+    function setCartQty(id, qty, model=null){
+      const cart = getCart();
+      const item = findCartItem(cart, id, model);
+      if(!item) return;
+      item.qty = Math.max(0, Math.floor(Number(qty) || 0));
+      saveCart(cart.filter(c=> c.qty > 0 ));
+    }
+    function removeFromCart(id, model=null){
+      const cart = getCart().filter(c => !(c.id === id && ( (c.model||null) === (model||null) )));
+      saveCart(cart);
+    }
+    function clearCart(){ saveCart([]); }
+
+    function cartSummary(){
+      const cart = getCart();
+      const lines = cart.map(ci => {
+        const p = products.find(pp=>pp.id===ci.id);
+        const price = p ? Number(p.price)||0 : 0;
+        const qty = Number(ci.qty)||0;
+        return { ...ci, product: p || null, qty, lineTotal: price * qty };
+      });
+      const subtotal = lines.reduce((s,l)=> s + Number(l.lineTotal || 0), 0);
+      const shipping = (subtotal >= 1500 || subtotal === 0) ? 0 : 150;
+      const total = subtotal + shipping;
+      return {lines, subtotal, shipping, total};
+    }
+
+    function updateCartBadge(){
+      const cart = getCart();
+      const count = cart.reduce((s,i)=> s + Number(i.qty || 0), 0);
+      const el = document.getElementById('cartCount');
+      if(!el) return;
+      el.textContent = count;
+      el.style.display = count>0 ? 'inline-block' : 'none';
+    }
+
+    function showAddPopNearCart(text){
+      const cartBtn = document.getElementById('openCart');
+      if(!cartBtn) return;
+      const rect = cartBtn.getBoundingClientRect();
+      const el = document.createElement('div');
+      el.className = 'add-pop';
+      el.textContent = text;
+      document.body.appendChild(el);
+      const left = rect.left + rect.width/2 - (el.offsetWidth/2);
+      const top = rect.top - 6;
+      el.style.left = Math.max(8, left) + 'px';
+      el.style.top = Math.max(8, top) + 'px';
+      setTimeout(()=> { if(el && el.parentNode) el.parentNode.removeChild(el); }, 950);
+    }
+
+    // SPA renderers
+    const app = document.getElementById('app');
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function money(n){ return '$' + Number(n).toFixed(0) + ' MXN'; }
+
+    function renderHome(){
+      document.title = 'AltaVibe — Accesorios de celulares premium';
+      app.innerHTML = `
+        <section class="hero">
+          <div>
+            <h1>AltaVibe — Calidad y ajuste perfecto</h1>
+            <p>Accesorios de celulares de alta calidad, diseñados para un compatibilidad precisa y rendimiento superior. Enfocados en durabilidad y experiencia de uso. Compra fácil por WhatsApp.</p>
+            <div class="cta">
+              <a class="btn" href="#productos">Ver productos</a>
+              <a class="ghost" style="margin-left:12px" href="#faq">Garantía &amp; FAQ</a>
+            </div>
+
+            <div class="trust" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:18px">
+              <div class="item card" style="padding:12px;border-radius:12px;flex:1;min-width:180px;text-align:center">
+                <div class="pill">Envío 3-5 días hábiles</div>
+                <div class="muted" style="margin-top:6px">Rastreo incluido</div>
+              </div>
+              <div class="item card" style="padding:12px;border-radius:12px;flex:1;min-width:180px;text-align:center">
+                <div class="pill">Garantía Incluida</div>
+                <div class="muted" style="margin-top:6px">Cambio o devolución</div>
+              </div>
+              <div class="item card" style="padding:12px;border-radius:12px;flex:1;min-width:180px;text-align:center">
+                <div class="pill">Soporte WhatsApp</div>
+                <div class="muted" style="margin-top:6px">Respuesta rápida</div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card" style="display:flex;align-items:center;justify-content:center">
+            <img src="/images/AltaVibeLogoNOBG.png" alt="AltaVibe" style="width:100%;height:380px;object-fit:cover;border-radius:10px;">
+          </div>
+        </section>
+
+        <section id="productos">
+          <h2 style="margin-top:20px">Productos</h2>
+          <div class="products-grid">
+            ${products.map((p, index)=>`
+              <div class="product card" data-index="${index}" data-id="${p.id}">
+                <img src="${p.imgs[0]}" alt="${p.name}" loading="lazy" decoding="async">
+                <div class="product-body">
+                  <h3>${p.name}</h3>
+                  <div class="muted">${p.short}</div>
+                  <div class="price">${money(p.price)}</div>
+                  <div class="actions">
+                    <button class="ghost" onclick="location.hash='product=${p.id}'">Ver</button>
+                    <a class="btn" href="#" onclick="buyProduct('${p.id}');return false;">Comprar</a>
+                    <button class="ghost" onclick="event.stopPropagation(); addToCart('${p.id}',1); updateCartBadge();">Agregar al carrito</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <section id="faq" style="margin-top:28px">
+          <h2>Garantía &amp; Preguntas frecuentes</h2>
+          <div class="card" style="margin-top:12px;padding:18px">
+            <h3 style="margin:0 0 8px">¿Son originales?</h3>
+            <p class="muted">AltaVibe vende accesorios <strong>de alta calidad Top Quality</strong>. No son fabricados ni certificados por Apple u otros fabricantes. Somos transparentes sobre la procedencia y ofrecemos garantía.</p>
+            <h3 style="margin-top:12px">Garantía</h3>
+            <p class="muted">7 días contra defectos de fabricación. No aplica por mal uso o daño físico.</p>
+            <h3 style="margin-top:12px">Envíos</h3>
+            <p class="muted">Enviamos a toda la República Mexicana. Tiempos estimados: 3-5 días hábiles según la región. Manejamos <strong> envios gratis </strong> a partir de los 1,500 MXN en productos.</p>
+            <h3 style="margin-top:12px">Mayoreo</h3>
+            <p class="muted">Mas informacion del mayoreo al contacto por medio de WhatsApp, se le proporciona el catalogo con precios mayoristas, el minimo requerido para comprar mayoreo con nosotros es de 1,500 MXN</p>
+          </div>
+        </section>
+
+        <section id="contacto" style="margin-top:28px">
+          <h2>Contacto</h2>
+          <div class="card" style="padding:16px">
+            <p class="muted">Ventas por WhatsApp: <a href="https://wa.me/${whatsappNumber}" target="_blank" rel="noopener noreferrer"><strong>+52 662 327 9060</strong></a></p>
+            <p class="muted">Correo: altavibe0@gmail.com</p>
+            <p class="muted">Horario de atención: Lunes a Viernes, 9am - 6pm</p>
+            <p class="muted">Síguenos en redes sociales para novedades y promociones.</p>
+            <p class="muted">Instagram: <a href="https://instagram.com/_altavibe_" target="_blank" rel="noopener noreferrer"><strong>@_altavibe_</strong></a></p>
+          </div>
+        </section>
+      `;
+      document.querySelectorAll('.product').forEach(card=>{
+        card.setAttribute('tabindex','0');
+        card.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') location.hash = 'product=' + card.dataset.id; });
+        card.addEventListener('click', (ev)=>{ if(ev.target.closest('.ghost')||ev.target.closest('.btn')||ev.target.closest('a')) return; location.hash = 'product=' + card.dataset.id; });
+      });
+      updateCartBadge();
+    }
+
+    function renderProduct(id){
+      const p = products.find(x=>x.id===id);
+      if(!p){ renderHome(); return; }
+      const index = products.findIndex(x=>x.id===id);
+      document.title = p.name + ' — AltaVibe';
+      // If product is 'funda-magsafe' we'll insert the model selector block
+      const isFunda = (p.id === 'funda-magsafe');
+      app.innerHTML = `
+        <div style="margin-top:6px"><span class="backlink" onclick="location.hash=''">← Volver</span></div>
+        <div class="product-detail">
+          <div>
+            <div class="big-img card"><img id="bigProductImg" src="${p.imgs[0]}" alt="${p.name}" loading="lazy" decoding="async"></div>
+            <div style="margin-top:12px" class="card">
+              <h3>Descripción</h3>
+              <p class="muted">${p.desc}</p>
+              <h4>Características</h4>
+              <ul class="muted">${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+            </div>
+          </div>
+          <div>
+            <div class="meta card">
+              <h2>${p.name}</h2>
+              <div class="muted">SKU: ${p.sku}</div>
+              <div class="price">${money(p.price)}</div>
+              <div style="margin-top:10px"><span class="badge">En stock</span></div>
+
+              <!-- HERE: model selector for Funda MagSafe (inserta solo en esa página) -->
+              ${ isFunda ? `
+                <div class="select-row" id="modelSelectorRow">
+                  <label for="modelSelect">Elige tu modelo:</label>
+                  <select id="modelSelect" class="select-model" aria-label="Selecciona tu modelo">
+                    <option value="" selected>Selecciona tu modelo</option>
+                    <option value="11 Pro Max">11 Pro Max</option>
+                    <option value="12 Pro Max">12 Pro Max</option>
+                    <option value="13 Pro Max">13 Pro Max</option>
+                    <option value="14 Pro Max">14 Pro Max</option>
+                    <option value="15 Pro Max">15 Pro Max</option>
+                    <option value="16 Pro Max">16 Pro Max</option>
+                  </select>
+                </div>
+              ` : '' }
+
+              <div class="primary-actions" style="margin-top:18px">
+                <a class="btn" href="#" id="buyNowBtn">Comprar por WhatsApp</a>
+                <a class="ghost" style="margin-left:10px" href="#contacto">Soporte</a>
+              </div>
+
+              <button id="addToCartBtn" class="add-cart-center">Agregar al carrito</button>
+
+              <div class="disclaimer">AltaVibe vende accesorios compatibles de alta calidad. No son fabricados ni certificados por Apple u otros fabricantes.</div>
+            </div>
+
+            <div style="margin-top:14px" class="card">
+              <h4>Pago y envío</h4>
+              <p class="muted">Aceptamos tarjetas, transferencia y pago en efectivo a la entrega (según zona). Envío 24-72 horas. Rastreo incluido.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <section class="reco-wrap">
+          <div class="reco-controls">
+            <div class="muted">Productos recomendados</div>
+            <div style="flex:1"></div>
+            <button id="recoPrevBtn" aria-label="Anterior">&lt;</button>
+            <button id="recoNextBtn" aria-label="Siguiente">&gt;</button>
+          </div>
+          <div id="recoCarousel" class="reco-carousel">
+            ${products.filter(pp=>pp.id!==p.id).map(pp=>`
+              <div class="reco-item" data-id="${pp.id}">
+                <a href="#product=${pp.id}" style="color:inherit;text-decoration:none">
+                  <img src="${pp.imgs[0]}" alt="${pp.name}" loading="lazy" decoding="async">
+                  <h4>${pp.name}</h4>
+                  <div class="price">${money(pp.price)}</div>
+                </a>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+
+      // preload
+      const link = document.createElement('link'); link.rel='preload'; link.as='image'; link.href = p.imgs[0]; document.head.appendChild(link);
+
+      // buy now handler (include model if present)
+      document.getElementById('buyNowBtn').addEventListener('click', (e)=>{
+        e.preventDefault();
+        // if this is funda, check model selected
+        if(isFunda){
+          const sel = document.getElementById('modelSelect');
+          if(!sel || !sel.value){
+            alert('Por favor selecciona tu modelo.');
+            sel && sel.focus();
+            return;
+          }
+          const model = sel.value;
+          buyProductWithModel(p.id, model);
+        } else {
+          buyProduct(p.id);
+        }
+      });
+
+      // add to cart handler
+      document.getElementById('addToCartBtn').addEventListener('click', ()=>{
+        if(isFunda){
+          const sel = document.getElementById('modelSelect');
+          if(!sel || !sel.value){
+            alert('Por favor selecciona tu modelo.');
+            sel && sel.focus();
+            return;
+          }
+          addToCart(p.id, 1, sel.value);
+        } else {
+          addToCart(p.id, 1, null);
+        }
+        updateCartBadge();
+        const btn = document.getElementById('addToCartBtn');
+        btn.textContent = 'Agregado ✓';
+        setTimeout(()=> btn.textContent = 'Agregar al carrito', 1200);
+      });
+
+      // big image -> open simple modal (only here)
+      const bigImg = document.getElementById('bigProductImg');
+      bigImg.addEventListener('click', ()=> openModalForImage(p.imgs[0], p.name));
+
+      // reco carousel autoplay
+      const carousel = document.getElementById('recoCarousel');
+      let autoplay = true; let rafId = null; let last = performance.now(); const speed = 0.03;
+      function step(now){ const dt = now - last; last = now; if(autoplay){ carousel.scrollLeft += dt * speed; if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 1){ carousel.scrollTo({left:0, behavior:'smooth'}); } } rafId = requestAnimationFrame(step); }
+      autoplay = true; rafId = requestAnimationFrame(step);
+      ['pointerdown','touchstart','wheel','mousedown','keydown'].forEach(evt => { carousel.addEventListener(evt, ()=> { autoplay = false; if(rafId) cancelAnimationFrame(rafId); }, {passive:true}); });
+
+      document.getElementById('recoPrevBtn').addEventListener('click',(e)=>{ e.preventDefault(); carousel.scrollBy({left:-240, behavior:'smooth'}); });
+      document.getElementById('recoNextBtn').addEventListener('click',(e)=>{ e.preventDefault(); carousel.scrollBy({left:240, behavior:'smooth'}); });
+
+      document.querySelectorAll('.reco-item').forEach(item=>{ item.addEventListener('click', (e)=>{ const id = item.getAttribute('data-id'); location.hash = 'product=' + id; }); });
+
+      updateCartBadge();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // lightbox simple (only opened from product page)
+    const ivModal = document.getElementById('ivModal');
+    const ivModalImg = document.getElementById('ivModalImg');
+    const ivModalClose = document.getElementById('ivModalClose');
+    function openModalForImage(src, alt){
+      ivModalImg.src = src; ivModalImg.alt = alt || '';
+      ivModal.style.display = 'flex'; ivModal.setAttribute('aria-hidden','false');
+      ivModalClose && ivModalClose.focus();
+      document.addEventListener('keydown', handleModalKeySimple);
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModalSimple(){ ivModal.style.display = 'none'; ivModal.setAttribute('aria-hidden','true'); ivModalImg.src=''; document.removeEventListener('keydown', handleModalKeySimple); document.body.style.overflow = ''; }
+    function handleModalKeySimple(e){ if(e.key === 'Escape') closeModalSimple(); }
+    if(ivModalClose) ivModalClose.addEventListener('click', closeModalSimple);
+    ivModal.addEventListener('click', (e)=>{ if(e.target === ivModal) closeModalSimple(); });
+
+    function buyProduct(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      const msg = `Hola, quiero comprar ${p.name} (AltaVibe) — Precio ${p.price} MXN. ¿Está disponible?`;
+      const url = `https://wa.me/${whatsappNumber}?text=` + encodeURIComponent(msg);
+      window.open(url, '_blank');
+    }
+    function buyProductWithModel(id, model){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      const msg = `Hola, quiero comprar ${p.name} (Modelo: ${model}) (AltaVibe) — Precio ${p.price} MXN. ¿Está disponible?`;
+      const url = `https://wa.me/${whatsappNumber}?text=` + encodeURIComponent(msg);
+      window.open(url, '_blank');
+    }
+
+    function renderCart(){
+      document.title = 'Carrito — AltaVibe';
+      const summary = cartSummary();
+      app.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Carrito</h2>
+          <div><button class="ghost" onclick="clearCart(); renderCart();">Vaciar carrito</button></div>
+        </div>
+
+        <div class="cart-page">
+          <div class="cart-list">
+            ${summary.lines.length === 0 ? `<div class="card"><p class="muted">Tu carrito está vacío.</p></div>` : summary.lines.map(line=>`
+              <div class="cart-row" data-id="${line.id}" data-model="${line.model ? line.model : ''}">
+                <img src="${line.product ? line.product.imgs[0] : ''}" alt="${line.product ? line.product.name : ''}">
+                <div class="meta">
+                  <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div>
+                      <div style="font-weight:700">${line.product ? line.product.name : line.id} ${line.model ? '• ' + line.model : ''}</div>
+                      <div class="muted">SKU: ${line.product ? line.product.sku : ''}</div>
+                    </div>
+                    <div style="text-align:right">${money(line.lineTotal)}</div>
+                  </div>
+                  <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+                    <div class="qty-controls">
+                      <button class="qty-minus" aria-label="Reducir">-</button>
+                      <div style="min-width:28px;text-align:center">${line.qty}</div>
+                      <button class="qty-plus" aria-label="Aumentar">+</button>
+                    </div>
+                    <div><button class="ghost remove-item">Eliminar</button></div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div style="margin-top:16px" class="card">
+            <h3>Resumen del pedido</h3>
+            <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div>${money(summary.subtotal)}</div></div>
+            <div style="display:flex;justify-content:space-between"><div>Envío</div><div>${summary.shipping === 0 ? 'Gratis' : money(summary.shipping)}</div></div>
+            <div style="display:flex;justify-content:space-between;font-weight:800;margin-top:8px"><div>Total</div><div>${money(summary.total)}</div></div>
+            <div style="margin-top:10px" class="muted">El envío cuesta $150. Si la compra es mayor o igual a $1500, el envío es gratis.</div>
+            <div style="margin-top:16px;display:flex;gap:8px">
+              <button class="btn" id="checkoutBtn">Terminar pedido</button>
+              <a class="ghost" href="#productos" style="align-self:center">Seguir comprando</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.querySelectorAll('.cart-row').forEach(row=>{
+        const id = row.getAttribute('data-id');
+        const model = row.getAttribute('data-model') || null;
+        const minus = row.querySelector('.qty-minus');
+        const plus = row.querySelector('.qty-plus');
+        const removeBtn = row.querySelector('.remove-item');
+
+        minus.addEventListener('click', ()=> {
+          const current = getCart().find(c=>c.id===id && ( (c.model||null) === (model||null) ));
+          if(!current) return;
+          const newQty = Math.max(0, Number(current.qty) - 1);
+          if(newQty === 0) removeFromCart(id, model);
+          else setCartQty(id, newQty, model);
+          renderCart();
+        });
+        plus.addEventListener('click', ()=> {
+          const current = getCart().find(c=>c.id===id && ( (c.model||null) === (model||null) ));
+          if(!current) return;
+          setCartQty(id, Number(current.qty) + 1, model);
+          renderCart();
+        });
+        removeBtn.addEventListener('click', ()=> {
+          removeFromCart(id, model);
+          renderCart();
+        });
+      });
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      if(checkoutBtn){
+        checkoutBtn.addEventListener('click', ()=>{
+          const {lines, subtotal, shipping, total} = cartSummary();
+          if(lines.length === 0){ alert('Tu carrito está vacío.'); return; }
+          const parts = [];
+          parts.push('Pedido AltaVibe:');
+          lines.forEach(l=>{
+            const name = l.product ? l.product.name : l.id;
+            const modelText = l.model ? ` (Modelo: ${l.model})` : '';
+            parts.push(`${l.qty} x ${name}${modelText} — ${money(l.product ? l.product.price : 0)}`);
+          });
+          parts.push(`Subtotal: ${money(subtotal)}`);
+          if(shipping === 0) parts.push('Envío: Gratis'); else parts.push(`Envío: ${money(shipping)}`);
+          parts.push(`Total: ${money(total)}`);
+          if(subtotal >= 1500) parts.push('¡Aplica envío gratis!'); else parts.push('Envio aplicable: si subtotal >= 1500 MXN es gratis.');
+          parts.push('¿Confirmo pedido?');
+          const waUrl = `https://wa.me/${whatsappNumber}?text=` + encodeURIComponent(parts.join('\n'));
+          window.open(waUrl,'_blank');
+        });
+      }
+
+      updateCartBadge();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // router
+    function router(){
+      const hash = location.hash.replace('#','');
+      if(!hash || hash==='home') { renderHome(); return; }
+      if(hash==='cart'){ renderCart(); return; }
+      if(hash.startsWith('product=')){
+        const id = hash.split('=')[1];
+        renderProduct(id);
+        closeMobileNav();
+        return;
+      }
+      if(hash==='productos'){ renderHome(); setTimeout(()=>{ document.getElementById('productos')?.scrollIntoView({behavior:'smooth'}) },50); closeMobileNav(); return; }
+      if(hash==='faq'){ renderHome(); setTimeout(()=>{ document.getElementById('faq')?.scrollIntoView({behavior:'smooth'}) },50); closeMobileNav(); return; }
+      if(hash==='contacto'){ renderHome(); setTimeout(()=>{ document.getElementById('contacto')?.scrollIntoView({behavior:'smooth'}) },50); closeMobileNav(); return; }
+      renderHome();
+    }
+    window.addEventListener('hashchange', router);
+    window.addEventListener('DOMContentLoaded', router);
+
+    // mobile nav
+    const hamburger = document.querySelectorAll('#hamburger')[0];
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileClose = document.getElementById('mobileClose');
+    function openMobileNav(){ mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden','false'); hamburger.setAttribute('aria-expanded','true'); const first = mobileNav.querySelector('a'); if(first) first.focus(); }
+    function closeMobileNav(){ mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden','true'); hamburger.setAttribute('aria-expanded','false'); hamburger.focus(); }
+    hamburger.addEventListener('click', ()=>{ if(mobileNav.classList.contains('open')) closeMobileNav(); else openMobileNav(); });
+    mobileClose.addEventListener('click', closeMobileNav);
+    mobileClose.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') closeMobileNav(); });
+    document.addEventListener('click', (ev)=>{ if(ev.target.matches('.mobile-link')) closeMobileNav(); });
+    window.addEventListener('resize', ()=>{ if(window.innerWidth > 1000) closeMobileNav(); });
+
+    document.getElementById('openCart').addEventListener('click', ()=>{ location.hash = 'cart'; });
+
+    // prefetch whatsapp
+    document.addEventListener('mouseover', (e)=>{
+      if(e.target && (e.target.matches('.btn') || e.target.matches('a'))) {
+        const href = e.target.getAttribute('href') || '';
+        if(href.includes('wa.me')){
+          const link = document.createElement('link'); link.rel='prefetch'; link.href=href; document.head.appendChild(link);
+        }
+      }
+    });
+
+    // init badge
+    updateCartBadge();
+  </script>
+</body>
+</html>
